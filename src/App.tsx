@@ -7,13 +7,13 @@ import { Titulo } from './components/Titulo';
 import { useDadosConsulta } from './useDadosConsulta';
 
 function App() {
-  useDadosConsulta()
+  const { dados, erro } = useDadosConsulta()
   return (
     <>
       <Cabecalho />
       <Container>
         <Titulo>Area Administrativa</Titulo>
-        <Tabela />
+        <Tabela consultas={dados}/>
       </Container>
       <Rodape />
     </>

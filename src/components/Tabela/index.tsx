@@ -5,33 +5,58 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  tableCellClasses
 } from "@mui/material";
+import { IConsulta } from "../../types/IConsulta";
+import styled from "@emotion/styled";
 
-export function Tabela() {
+const CelulaEstilizada = styled(TableCell)(() => ({
+  [`&.${tableCellClasses.head}`]: {
+    color: "var(--azul-escuro)",
+    fontSize: 18,
+    fontWeight: 700,
+    fontFamily: "var(--fonte-principal)"
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 16,
+    fontFamily: "var(--fonte-principal)"
+  }
+}))
+
+const LinhaEstilizada = styled(TableRow)(() => ({
+  [`&:nth-of-type(odd)`]: {
+    backgroundColor: 'var(--cinza-claro)',
+    align:'right'
+  }
+}))
+
+export function Tabela({ consultas }: { consultas: IConsulta[] | null }) {
   return (
     <>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="tabela-cistomizada">
           <TableHead>
             <TableRow>
-              <TableCell>Data</TableCell>
-              <TableCell>Horario</TableCell>
-              <TableCell>Proffisional</TableCell>
-              <TableCell>Especialidade</TableCell>
-              <TableCell>Paciente</TableCell>
-              <TableCell>Modalidade</TableCell>
+              <CelulaEstilizada>Data</CelulaEstilizada>
+              <CelulaEstilizada>Horario</CelulaEstilizada>
+              <CelulaEstilizada>Profisional</CelulaEstilizada>
+              <CelulaEstilizada>Especialidade</CelulaEstilizada>
+              <CelulaEstilizada>Paciente</CelulaEstilizada>
+              <CelulaEstilizada>Modalidade</CelulaEstilizada>
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell component="th" scope="row">22/03</TableCell>
-              <TableCell>08:30</TableCell>
-              <TableCell>Monica Hillman</TableCell>
-              <TableCell>Clinica Geral</TableCell>
-              <TableCell>Caroline Carvalho</TableCell>
-              <TableCell>Particular</TableCell>
-            </TableRow>
+            {consultas?.map(linha => (
+              <LinhaEstilizada>
+                <CelulaEstilizada component="th" scope="row">{new Date(linha.data).toLocaleDateString()}</CelulaEstilizada>
+                <CelulaEstilizada>{linha.horario}</CelulaEstilizada>
+                <CelulaEstilizada>{linha.profissional[0].nome}</CelulaEstilizada>
+                <CelulaEstilizada>{linha.profissional[0].especialidade}</CelulaEstilizada>
+                <CelulaEstilizada>{linha.paciente}</CelulaEstilizada>
+                <CelulaEstilizada>{linha.modalidade}</CelulaEstilizada>
+              </LinhaEstilizada>
+             ))}
           </TableBody>
         </Table>
       </TableContainer>
